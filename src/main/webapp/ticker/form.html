@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>New ticker</h1>
+
+    <div th:if="${message}" th:text="${message}" id="message" class="alert alert-info"></div>
+    <form method="POST" th:object="${ticker}" role="form" class="form-ticker">
+        <div th:class="'form-group' + ( ${#fields.hasErrors('name')} ? ' has-error' : '' )">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name" th:field="*{name}"/>
+
+            <div th:if="${#fields.hasErrors('name')}"><p th:errors="*{name}">Incorrect Name</p></div>
+        </div>
+        <div th:class="'form-group' + ( ${#fields.hasErrors('industry.name')} ? ' has-error' : '' )">
+            <label for="industry">Industry</label>
+            <input type="text" class="form-control" id="industry" placeholder="Enter industry"
+                   th:field="*{industry.name}"/>
+
+            <div th:if="${#fields.hasErrors('industry.name')}"><p th:errors="*{industry.name}">Incorrect
+                industry</p></div>
+        </div>
+        <button type="submit" class="btn btn-default">Create</button>
+    </form>
+</div>
+</body>
+</html>

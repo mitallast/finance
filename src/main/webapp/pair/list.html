@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>Pairs <span th:if="${industry}" th:text="${industry.name}"></span></h1>
+
+    <table class="table table-stripped" th:fragment="list">
+        <thead>
+        <tr th:if="not ${form}">
+            <th>Title</th>
+            <th>Industry</th>
+            <th>Correlation</th>
+            <th>Volatility</th>
+            <th>Pair&nbsp;test</th>
+            <th>SMA&nbsp;&Delta;&nbsp;1</th>
+            <th>SMA&nbsp;&Delta;&nbsp;2</th>
+            <th>SMA&nbsp;&Delta;&nbsp;3</th>
+            <th>Back&nbsp;Trade</th>
+            <th>Charts</th>
+        </tr>
+        <tr th:if="${form}">
+            <th>Title</th>
+            <th>Industry</th>
+            <th th:with="field='correlation',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    Correlation
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th th:with="field='volatility',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    Volatility
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th th:with="field='pairTest',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    Pair&nbsp;Test
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th th:with="field='pairHiLow',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    Pair&nbsp;HiLow
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th th:with="field='smaDeltaStdOutCount1',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    SMA&nbsp;&Delta;&nbsp;1
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th th:with="field='smaDeltaStdOutCount2',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    SMA&nbsp;&Delta;&nbsp;2
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th th:with="field='smaDeltaStdOutCount3',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    SMA&nbsp;&Delta;&nbsp;3
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th th:with="field='smaDeltaBackTrade',active=${form.sorting}==${field},desc=${active} and not ${form.desc}">
+                <a th:class="'sortable ' + (${active} ? 'sortable-active ' : '') + (${desc} ? 'dropdown' : 'dropup')"
+                   th:href="@{/pair} + ${form.getParams(field, desc)}">
+                    Back&nbsp;Trade
+                    <span th:if="${active}" class="caret"></span>
+                </a>
+            </th>
+            <th>Charts</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pair : ${pairs}">
+            <td th:text="${pair.title}"></td>
+
+            <td>
+                <div th:text="${pair.leftIndustry.name}"></div>
+                <div th:if="${pair.leftIndustry} != ${pair.rightIndustry}" th:text="${pair.rightIndustry.name}"></div>
+            </td>
+
+            <td th:if="${pair.correlation}" th:text="${#numbers.formatDecimal(pair.correlation,1,3)}"></td>
+            <td th:if="not ${pair.correlation}">0.000</td>
+
+            <td th:if="${pair.volatility}" th:text="${#numbers.formatDecimal(pair.volatility,1,3)}"></td>
+            <td th:if="not ${pair.volatility}"></td>
+
+            <td th:if="${pair.pairTest}" th:text="${#numbers.formatDecimal(pair.pairTest,1,3)}"></td>
+            <td th:if="not ${pair.pairTest}">0.000</td>
+
+            <td th:if="${pair.pairHiLow}" th:text="${#numbers.formatDecimal(pair.pairHiLow,1,3)}"></td>
+            <td th:if="not ${pair.pairHiLow}">0.000</td>
+
+            <td th:if="${pair.smaDeltaStdOutCount1}" th:text="${pair.smaDeltaStdOutCount1}"></td>
+            <td th:if="not ${pair.smaDeltaStdOutCount1}"></td>
+
+            <td th:if="${pair.smaDeltaStdOutCount2}" th:text="${pair.smaDeltaStdOutCount2}"></td>
+            <td th:if="not ${pair.smaDeltaStdOutCount2}"></td>
+
+            <td th:if="${pair.smaDeltaStdOutCount3}" th:text="${pair.smaDeltaStdOutCount3}"></td>
+            <td th:if="not ${pair.smaDeltaStdOutCount3}"></td>
+
+            <td th:if="${pair.smaDeltaBackTrade}" th:text="${#numbers.formatDecimal(pair.smaDeltaBackTrade,1,3)}"></td>
+            <td th:if="not ${pair.smaDeltaBackTrade}"></td>
+
+            <td>
+                <div class="btn-group">
+                    <a th:href="@{/pair/charts(id=${pair.id})}" role="button" class="btn btn-sm btn-primary">Charts</a>
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a th:href="@{/pair/chart/double(left=${pair.left.id},right=${pair.right.id})}">Double</a>
+                        </li>
+                        <li><a th:href="@{/pair/chart/pair(left=${pair.left.id},right=${pair.right.id})}">Pair</a></li>
+                        <li><a th:href="@{/pair/chart/correlation(left=${pair.left.id},right=${pair.right.id})}">Correlation</a>
+                        </li>
+                        <li><a th:href="@{/pair/chart/moving(left=${pair.left.id},right=${pair.right.id})}">Moving</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/pair/chart/moving/delta(left=${pair.left.id},right=${pair.right.id})}">Delta</a>
+                        </li>
+                        <li><a th:href="@{/pair/chart/mean(left=${pair.left.id},right=${pair.right.id})}">Mean</a></li>
+                        <li>
+                            <a th:href="@{/pair/chart/kurtosis(left=${pair.left.id},right=${pair.right.id})}">Kurtosis</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/pair/chart/skewness(left=${pair.left.id},right=${pair.right.id})}">Skewness</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>Industries</h1>
+    <table class="table table-stripped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="industry : ${industries}">
+            <td th:text="${industry.id}"></td>
+            <td th:text="${industry.name}"></td>
+            <td>
+                <a th:href="@{/ticker/industry(id=${industry.id})}" class="btn btn-sm btn-info">Tickers</a>
+                <a th:href="@{/pair/industry(id=${industry.id})}" class="btn btn-sm btn-info">Pairs</a>
+                <a th:href="@{/pair/industry/csv(id=${industry.id})}" class="btn btn-sm btn-info">Pairs csv</a>
+                <a th:href="@{/pair/industry/index(id=${industry.id})}" class="btn btn-sm btn-primary">Index
+                    pairs</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

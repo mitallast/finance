@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>Pair <span th:text="${pair.title}"></span></h1>
+
+    <div class="chart-container row" th:with="width_lg=800,height_lg=600,width_sm=540,height_sm=400">
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/double(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/double(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/pair(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/pair(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/correlation(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/correlation(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/moving(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/moving(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/moving/delta(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/moving/delta(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/mean(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/mean(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/kurtosis(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/kurtosis(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+        <div class="chart col-md-6">
+            <img class="img-responsive"
+                 th:attr="data-lg-src=@{/pair/chart/skewness(left=${pair.left.id},right=${pair.right.id},width=${width_lg},height=${height_lg})},
+                 data-sm-src=@{/pair/chart/skewness(left=${pair.left.id},right=${pair.right.id},width=${width_sm},height=${height_sm})}"/>
+        </div>
+    </div>
+</div>
+<script>
+    /*<![CDATA[*/
+    $(function () {
+        var $images = $("img[data-lg-src][data-sm-src]");
+        $(window).resize(function () {
+            var prop = window.outerWidth > 1800 ? "lg-src" : "sm-src";
+            $images.each(function () {
+                var $img = $(this);
+                var url = $img.data(prop);
+                if ($img.prop("src") == undefined || $img.prop("src").indexOf(url) < 0) {
+                    console.log($img, $img.prop("src"), $img.data(prop));
+                    $img.prop("src", $img.data(prop));
+                }
+            });
+        }).resize();
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

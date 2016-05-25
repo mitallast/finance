@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>Tickers <span th:if="${industry}" th:text="${industry.name}"></span></h1>
+    <table class="table table-stripped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Industry</th>
+            <th>Blacklist</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ticker : ${tickers}">
+            <td th:text="${ticker.id}"></td>
+            <td th:text="${ticker.name}"></td>
+            <td>
+                <a th:href="@{/ticker/industry(id=${ticker.industry.id})}" th:text="${ticker.industry.name}"></a>
+            </td>
+            <td th:text="${ticker.blacklist} ? 'yes' : 'no'"></td>
+            <td>
+                <form class="delete-form" method="post" th:action="@{/ticker/delete}">
+                    <input id="id" name="id" type="hidden" th:value="${ticker.id}"/>
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+                <a th:href="@{/quote/fetch(id=${ticker.id})}" class="btn btn-sm btn-primary">Fetch</a>
+                <a th:href="@{/quote/list(id=${ticker.id})}" class="btn btn-sm btn-info">List</a>
+                <a th:href="@{/quote/chart(id=${ticker.id})}" class="btn btn-sm btn-info">Chart</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

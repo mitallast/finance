@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>Quote <span th:text="${ticker.name}"></span> &ndash; <span th:text="${ticker.industry.name}"></span></h1>
+    <table class="table table-stripped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Open</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Close</th>
+            <th>Volume</th>
+            <th>Adj Close</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="quote : ${quotes}">
+            <td th:text="${quote.id}"></td>
+            <td th:text="${quote.date}"></td>
+            <td th:text="${quote.open}"></td>
+            <td th:text="${quote.high}"></td>
+            <td th:text="${quote.low}"></td>
+            <td th:text="${quote.close}"></td>
+            <td th:text="${quote.volume}"></td>
+            <td th:text="${quote.adjClose}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

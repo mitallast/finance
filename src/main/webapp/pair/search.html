@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>Pairs</h1>
+
+    <form th:object="${form}" method="GET" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Correlation</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{correlationFrom}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.correlationMin,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{correlationTo}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.correlationMax,1,3)}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Volatility</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{volatilityFrom}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.volatilityMin,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{volatilityTo}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.volatilityMax,1,3)}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Pair Test</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{pairTestFrom}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.pairTestMin,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{pairTestTo}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.pairTestMax,1,3)}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Pair HiLow</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{pairHiLowFrom}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.pairHiLowMin,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{pairHiLowTo}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.pairHiLowMax,1,3)}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Industry</label>
+
+            <div class="col-sm-4">
+                <select class="form-control" th:field="*{industry}">
+                    <option value=""></option>
+                    <option th:each="industry : ${industries}" th:value="${industry.id}"
+                            th:text="${industry.name}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">SMA &Delta; 1</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaStdOutCount1From}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.smaDeltaStdOutCount1Min,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaStdOutCount1To}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.smaDeltaStdOutCount1Max,1,3)}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">SMA &Delta; 2</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaStdOutCount2From}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.smaDeltaStdOutCount2Min,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaStdOutCount2To}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.smaDeltaStdOutCount2Max,1,3)}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">SMA &Delta; 3</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaStdOutCount3From}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.smaDeltaStdOutCount3Min,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaStdOutCount3To}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.smaDeltaStdOutCount3Max,1,3)}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Back Trade</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaBackTradeFrom}"
+                       th:placeholder="'from ' + ${#numbers.formatDecimal(form.range.smaDeltaBackTradeMin,1,3)}"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" th:field="*{smaDeltaBackTradeTo}"
+                       th:placeholder="'to ' + ${#numbers.formatDecimal(form.range.smaDeltaBackTradeMax,1,3)}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-20">
+                <button type="submit" class="btn btn-default">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="pagination-container btn-toolbar" role="toolbar">
+        <div class="btn-group">
+            <a th:href="@{/pair/search/csv} + ${form.params}" class="btn btn-primary">Download csv</a>
+        </div>
+        <div class="btn-group">
+            <div th:replace="layout::pagination(@{/pair} + ${form.params})"></div>
+        </div>
+        <div class="btn-group">
+            <span class="btn btn-default">Total <span th:text="${page.totalElements}"></span></span>
+        </div>
+    </div>
+
+    <table th:replace="pair/list::list"></table>
+</div>
+</body>
+</html>

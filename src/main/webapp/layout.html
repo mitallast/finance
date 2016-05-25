@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Finance App</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.1.1/css/bootstrap.min.css"/>
+    <style>
+        .form-ticker {
+            max-width: 330px;
+        }
+
+        .delete-form {
+            display: inline-block;
+        }
+
+        .pagination-container {
+            margin: 20px 0 !important;
+        }
+
+        .pagination-container .pagination {
+            margin: 0 !important;
+        }
+
+        @media (min-width: 1800px) {
+            .container {
+                width: 1770px;
+            }
+        }
+
+        .navbar-collapse {
+            max-height: none !important;
+        }
+
+        .sortable {
+            color: black;
+        }
+
+        .sortable.sortable-active {
+            color: #428bca;
+        }
+
+        .sortable.dropup .caret {
+            margin-bottom: 5px;
+        }
+    </style>
+    <script type="text/javascript" src="/webjars/jquery/2.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:fragment="navbar" class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Finance App</a>
+        </div>
+        <div class="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/industry}">Industry</a></li>
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Pairs <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/pair/}">Search</a></li>
+                        <li class="divider"></li>
+                        <li><a th:href="@{/pair/csv/all}">Download CSV</a></li>
+                        <li><a th:href="@{/pair/csv/upload/volatility}">Upload CSV volatility</a></li>
+                        <li class="divider"></li>
+                        <li><a th:href="@{/pair/form}">New pair</a></li>
+                        <li class="divider"></li>
+                        <li><a th:href="@{/pair/index/all}">Index</a></li>
+                        <li><a th:href="@{/pair/index/industry/all}">Index by Industry</a></li>
+                        <li><a th:href="@{/pair/index/status}">Index status</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Quotes <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/quote/fetch/all}">Fetch all</a></li>
+                        <li><a th:href="@{/quote/fetch/status}">Fetch Status</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Tickers <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/ticker/}">List</a></li>
+                        <li><a th:href="@{/ticker/form}">New ticker</a></li>
+                        <li class="divider"></li>
+                        <li><a th:href="@{/ticker/csv/upload}">Upload CSV</a></li>
+                        <li><a th:href="@{/ticker/csv/blacklist}">Upload CSV Blacklist</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<ul th:fragment="pagination(baseUrl)" class="pagination" th:if="${page.totalPages} > 1"
+    th:with="len=5, total=(${len}+${len}), pages=(${page.totalPages}-1),
+    start_s=(${page.number} + ${len} lt ${pages} ? 0 : ${page.number} + ${len} - ${pages}),
+    start=(${page.number} - ${len} - ${start_s}),
+    start=(${start} gt 0 ? ${start} : 0),
+    end=(${start} + ${total} lt ${pages} ? ${start} + ${total} : ${pages})">
+
+    <li th:if="${page.number} != 0"><a th:href="@{${baseUrl}}">&laquo;</a></li>
+    <li th:if="${page.number} == 0" class="disabled"><span>&laquo;</span></li>
+
+    <li th:each="i : ${#numbers.sequence(start, end)}" th:class="${page.number} == ${i} ? 'active' : null">
+        <a th:if="${page.number} != ${i} and ${i} == 0" th:href="@{${baseUrl}}" th:text="${i}"></a>
+        <a th:if="${page.number} != ${i} and ${i} > 0" th:href="@{${baseUrl}(page=${i})}" th:text="${i}"></a>
+        <span th:if="${page.number} == ${i}" th:text="${i}"></span>
+    </li>
+
+    <li th:if="${page.number} != ${pages}"><a th:href="@{${baseUrl}(page=${pages})}">&raquo;</a></li>
+    <li th:if="${page.number} == ${pages}" class="disabled"><span>&raquo;</span></li>
+</ul>
+
+</body>
+</html>

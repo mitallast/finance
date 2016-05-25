@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout::head"></head>
+<body>
+
+<div th:replace="layout::navbar"></div>
+
+<div class="container">
+    <h1>New pair</h1>
+
+    <div th:errors="${pair}" class="alert alert-info"></div>
+
+    <form method="POST" th:object="${pair}" role="form" class="form-ticker">
+    <div th:class="'form-group' + ( ${#fields.hasErrors('left')} ? ' has-error' : '' )">
+            <label for="left">Left ticker</label>
+            <input type="text" class="form-control" id="left" placeholder="Enter ticker name" th:field="*{{left}}"/>
+
+            <div th:if="${#fields.hasErrors('left')}">
+                <p th:errors="*{left}">Incorrect ticker name</p>
+            </div>
+        </div>
+        <div th:class="'form-group' + ( ${#fields.hasErrors('right')} ? ' has-error' : '' )">
+            <label for="right">Right pair</label>
+            <input type="text" class="form-control" id="right" placeholder="Enter ticker name" th:field="*{{right}}"/>
+
+            <div th:if="${#fields.hasErrors('right')}">
+                <p th:errors="*{right}">Incorrect ticker name</p>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Create</button>
+    </form>
+</div>
+</body>
+</html>
